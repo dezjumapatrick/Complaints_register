@@ -28,7 +28,8 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $bet_ref = $row["bet_ref"];
                 $complaint = $row["complaint_details"];
                  $entry_time = $row["entry_time"];
-                $resolved_time = $row["resolved_time"];
+                 $resolution_brief = $row["resolution_brief"];
+                 $resolved_time = $row["resolved_time"];
                 $ticket_status = $row["ticket_status"];
                 $handler = $row["handler"];
             } else{
@@ -89,6 +90,10 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <div class="form-group">
                         <label>Entry Time</label>
                         <p><b><?php echo $row["entry_time"]; ?></b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Resolution Brief</label>
+                        <p><b><?php echo $row["resolution_brief"]; ?></b></p>
                     </div>
                     <div class="form-group">
                         <label>Resolve Time</label>
