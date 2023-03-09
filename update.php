@@ -3,8 +3,9 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$name = $bet_ref = $handler = "";
-$name_err = $bet_ref_err = $handler_err = "";
+$name = $bet_ref = $handler = $resolution ="";
+$name_err = $bet_ref_err = $handler_err = $resolution_brief_err ="";
+ 
  
 // Processing form data when form is submitted
 if(isset($_POST["id"]) && !empty($_POST["id"])){
@@ -36,7 +37,14 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     } else{
         $complaint_details = $input_complaint_details;
     }
-    
+      // Validate Resolution Brief
+      $input_resolution_brief = trim($_POST["resolution_brief"]);
+      if(empty($input_resolution_brief)){
+          $entry_resolution_brief_err = "Please enter Resolution Brief.";     
+     
+      } else{
+          $resolution_brief = $input_resolution_brief;
+      }
      // Validate Resolved time
     $input_resolved_time = trim($_POST["resolved_time"]);
     if(empty($input_resolved_time)){
@@ -67,16 +75,17 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     // Check input errors before inserting in database
     if(empty($name_err) && empty($bet_ref_err) && empty($handler_err)){
         // Prepare an update statement
-        $sql = "UPDATE complaints_record SET name=?, bet_ref=?, complaint_details=?,resolved_time=?,ticket_status=?,  handler=? WHERE id=?";
+        $sql = "UPDATE complaints_record SET name=?, bet_ref=?, complaint_details=?,resolution_brief=?,resolved_time=?,ticket_status=?,  handler=? WHERE id=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssssi", $param_name,$param_bet_ref, $param_complaint_details,  $param_resolved_time, $param_ticket_status, $param_handler, $param_id);
+            mysqli_stmt_bind_param($stmt, "sssssssi", $param_name,$param_bet_ref, $param_complaint_details, $param_resolution_brief,$param_resolved_time, $param_ticket_status, $param_handler, $param_id);
             
             // Set parameters
             $param_name = $name;
             $param_bet_ref = $bet_ref;
             $param_complaint_details= $complaint_details;
+            $param_resolution_brief = $resolution_brief;
             $param_resolved_time = $resolved_time;
             $param_ticket_status= $ticket_status;
             $param_handler = $handler;

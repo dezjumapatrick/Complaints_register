@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$name = $bet_ref = $handler = "";
-$name_err = $bet_ref_err = $handler_err = "";
+$name = $bet_ref = $handler = $resolution ="";
+$name_err = $bet_ref_err = $handler_err = $resolution_brief_err ="";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -43,7 +43,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
         $entry_time = $input_entry_time;
     }
+     // Validate Resolution Brief
+     $input_resolution_brief = trim($_POST["resolution_brief"]);
+     if(empty($input_resolution_brief)){
+         $entry_resolution_brief_err = "Please enter Resolution Brief.";     
     
+     } else{
+         $resolution_brief = $input_resolution_brief;
+     }
+
      // Validate Resolved time
     $input_resolved_time = trim($_POST["resolved_time"]);
     if(empty($input_resolved_time)){
@@ -75,19 +83,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($name_err) && empty($bet_ref_err) && empty($handler_err)){
+    if(empty($name_err) && empty($bet_ref_err) && empty($handler_err)&& empty($resolution_brief_err)){
         // Prepare an insert statement
-        $sql = "INSERT INTO complaints_record (name, bet_ref, complaint_details, entry_time, resolved_time, ticket_status, handler) VALUES (?, ?, ? , ?, ?, ?, ?)";
+        $sql = "INSERT INTO complaints_record (name, bet_ref, complaint_details, entry_time,resolution_brief, resolved_time, ticket_status, handler) VALUES (?, ?, ? , ?, ?, ?,?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssssss", $param_name,$param_bet_ref, $param_complaint, $param_entry_time, $param_resolved_time, $param_ticket_status, $param_handler );
+            mysqli_stmt_bind_param($stmt, "ssssssss", $param_name,$param_bet_ref, $param_complaint, $param_entry_time, $param_resolution_brief,$param_resolved_time, $param_ticket_status, $param_handler );
             
             // Set parameters
             $param_name = $name;
             $param_bet_ref = $bet_ref;
             $param_complaint = $complaint;
             $param_entry_time= $entry_time;
+            $param_resolution_brief = $resolution_brief;
             $param_resolved_time = $resolved_time;
             $param_ticket_status = $ticket_status;
             $param_handler = $handler;
@@ -119,7 +128,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .wrapper{
-            width: 600px;
+            width: 100%;
             margin: 0 auto;
         }
     </style>
