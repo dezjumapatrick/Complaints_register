@@ -33,7 +33,7 @@
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Complaint Register </h2>
                         <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Complaint</a>
-						<a href="register1.html" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New User</a>
+						
                     </div>
                     <?php
                     // Include config file
@@ -49,8 +49,9 @@
                                         echo "<th>#</th>";
                                         echo "<th>Name</th>";
                                          echo "<th>MPESA Ref No</th>";
-                                        echo "<th>Nature of Complaint</th>";
+                                        echo "<th>Complaint</th>";
                                         echo "<th>Entry Time</th>";
+                                        echo "<th>Resolution</th>";
                                         echo "<th>Resolution Time</th>";
                                          echo "<th>Ticket Status</th>";
                                          echo "<th>Handler</th>";
@@ -65,13 +66,14 @@
                                         echo "<td>" . $row['bet_ref'] . "</td>";
                                         echo "<td>" . $row['complaint_details'] . "</td>";
                                          echo "<td>" . $row['entry_time'] . "</td>";
+                                         echo "<td>" . $row['resolution_brief'] . "</td>";
                                           echo "<td>" . $row['resolved_time'] . "</td>";
                                           echo "<td>" . $row['ticket_status'] . "</td>";
                                         echo "<td>" . $row['handler'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                            echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Complaint" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                            echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Resolve Complaint" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                            echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Complaint" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
